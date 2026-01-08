@@ -37,7 +37,7 @@ h1 {
 #buttons {
     display: flex;
     justify-content: center;
-    gap: 10px; /* Butonlar arasındaki boşluk */
+    gap: 10px;
 }
 
 button {
@@ -77,14 +77,20 @@ button {
     right: 40px; 
     top: 50%;
     transform: translateY(-50%);
-    width: 950px;   /* Genişlik güncellendi */
-    height: 290px;   /* Yükseklik güncellendi */
+    width: 650px;
+    height: 290px;
     color: #ff4f9a;
-    font-size: 20px;
+    font-size: 35px;
     text-align: center;
     opacity: 0;
     transition: opacity 0.6s ease-in-out;
-    overflow: auto; /* yükseklik sınırına sığmayan metin için scroll */
+    overflow: auto;
+}
+
+/* Ses kontrol slider */
+#volumeControl {
+    margin-top: 15px;
+    width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -114,6 +120,8 @@ button {
         <h2>Bende seni çok seviyorum yavrum 💗</h2>
         <img id="photo" src="kedi.jpg">
         <div id="lyrics"></div>
+        <!-- Ses kontrol slider -->
+        <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.2">
     </div>
 </div>
 
@@ -128,6 +136,10 @@ const result = document.getElementById("result");
 const photo = document.getElementById("photo");
 const lyrics = document.getElementById("lyrics");
 const music = document.getElementById("music");
+const volumeControl = document.getElementById("volumeControl");
+
+// Başlangıçta ses %20
+music.volume = 0.2;
 
 // Hayır butonu hareketi: fare üzerine gelince ekranın her tarafına ışınlanacak
 noBtn.addEventListener("mouseover", () => {
@@ -173,9 +185,12 @@ yesBtn.addEventListener("click", () => {
         }
     });
 });
+
+// Slider ile ses ayarı
+volumeControl.addEventListener("input", () => {
+    music.volume = volumeControl.value;
+});
 </script>
 
 </body>
 </html>
-
-
