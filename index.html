@@ -67,13 +67,38 @@ button {
     margin-top: 15px;
 }
 
+/* Şarkı sözleri – sağ tarafta */
+#lyrics {
+    position: fixed;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 260px;
+    color: #ff4f9a;
+    font-size: 20px;
+    opacity: 0;
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.95); }
     to   { opacity: 1; transform: scale(1); }
 }
+    /* TELEFON GÖRÜNÜMÜ */
+@media (max-width: 768px) {
+    #lyrics {
+        position: fixed;
+        left: 50%;
+        bottom: 30px;
+        right: auto;
+        top: auto;
+        transform: translateX(-50%);
+        width: 90%;
+        text-align: center;
+        font-size: 18px;
+    }
+}
 </style>
 </head>
-
 
 <body>
 
@@ -85,14 +110,22 @@ button {
     <div id="result">
         <h2>Bende seni çok seviyorum yavrum 💗</h2>
         <img id="photo" src="kedi.jpg">
+        <div id="lyrics"></div>
     </div>
 </div>
+
+<!-- Müzik -->
+<audio id="music">
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 const result = document.getElementById("result");
 const photo = document.getElementById("photo");
+const lyrics = document.getElementById("lyrics");
+const music = document.getElementById("music");
 
 noBtn.addEventListener("mouseover", () => {
     const x = Math.random() * (window.innerWidth - 100);
@@ -101,16 +134,56 @@ noBtn.addEventListener("mouseover", () => {
     noBtn.style.top = y + "px";
 });
 
+let lyricsInterval;
+
 yesBtn.addEventListener("click", () => {
     document.getElementById("question").style.display = "none";
     yesBtn.style.display = "none";
     noBtn.style.display = "none";
+
     result.style.display = "block";
     photo.style.display = "block";
+
+    music.play();
+
+    const lines = [
+        "At least as deep as the Pacific Ocean 💕",
+        "Now I wanna be yours",
+        "Secrets I have held in my heart",
+        "Are harder to hide than I thought 💗",
+        "Maybe I just wanna be yours"
+    ];
+
+    let i = 0;
+    lyrics.style.opacity = 1;
+
+    const timedLyrics = [
+    { time: 0,  text: "At least as deep as the Pacific Ocean 💕" },
+    { time: 2, text: "Now I wanna be yours" },
+    { time: 6, text: "Secrets I have held in my heart" },
+    { time: 10, text: "Are harder to hide than I thought 💗" },
+    { time: 14, text: "Maybe I just wanna be yours" }
+    { time: 17, text: "I wanna be yours, I wanna be yours" }
+    { time: 22, text: "Wanna be yours" }
+];
+
+let currentLine = -1;
+
+music.addEventListener("timeupdate", () => {
+    for (let i = 0; i < timedLyrics.length; i++) {
+        if (
+            music.currentTime >= timedLyrics[i].time &&
+            currentLine !== i
+        ) {
+            lyrics.innerText = timedLyrics[i].text;
+            lyrics.style.opacity = 1;
+            currentLine = i;
+        }
+    }
+});
+
 });
 </script>
 
 </body>
 </html>
-
-
