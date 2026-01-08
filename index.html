@@ -37,7 +37,7 @@ button {
     font-family: 'Pacifico', cursive;
     font-size: 18px;
     padding: 10px 20px;
-    margin: 0 5px; /* Yan yana boşluk */
+    margin: 0 5px; /* Yan yana */
     border: none;
     border-radius: 15px;
     cursor: pointer;
@@ -65,28 +65,20 @@ button {
     margin-top: 15px;
 }
 
-/* Şarkı sözleri – soldan sağa animasyon, biraz daha büyük font */
+/* Şarkı sözleri – eski konum ve fade-in efekti */
 #lyrics {
     position: fixed;
-    right: 120px; 
+    right: 40px; 
     top: 50%;
     transform: translateY(-50%);
     width: 260px;
     color: #ff4f9a;
-    font-size: 24px; /* font biraz büyütüldü */
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: 2px solid #ff4f9a;
+    font-size: 20px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out; /* fade-in efekti */
 }
 
-/* Soldan sağa yazı animasyonu */
-@keyframes typing {
-    from { width: 0; }
-    to { width: 100%; }
-}
-
-/* Mobil görünüm */
 @media (max-width: 768px) {
     #lyrics {
         left: 50%;
@@ -95,7 +87,7 @@ button {
         top: auto;
         transform: translateX(-50%);
         width: 90%;
-        font-size: 20px;
+        font-size: 18px;
     }
 }
 </style>
@@ -105,7 +97,7 @@ button {
 <div class="container">
     <h1 id="question">Beni seviyor musun? 💕</h1>
     <div id="buttons"> <!-- Butonları kapsayan div -->
-        <button id="yes">Evet 🤍</button>
+        <button id="yes">Evet 💖</button>
         <button id="no">Hayır 🙃</button>
     </div>
 
@@ -128,10 +120,13 @@ const photo = document.getElementById("photo");
 const lyrics = document.getElementById("lyrics");
 const music = document.getElementById("music");
 
-// Hayır butonu hareketi (Evet butonunun sağında kalacak)
+// Hayır butonu hareketi (ekranın her tarafına)
 noBtn.addEventListener("mouseover", () => {
-    const x = Math.random() * 50; // küçük hareket, kutu içinde
-    noBtn.style.transform = `translateX(${x}px)`;
+    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+    noBtn.style.position = "absolute";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
 });
 
 // Evet tıklandığında
@@ -160,8 +155,10 @@ yesBtn.addEventListener("click", () => {
         for (let i = 0; i < timedLyrics.length; i++) {
             if (music.currentTime >= timedLyrics[i].time && currentLine !== i) {
                 lyrics.innerText = timedLyrics[i].text;
-                lyrics.style.width = "0"; // başlat
-                lyrics.style.animation = "typing 2s steps(" + timedLyrics[i].text.length + ") forwards";
+                lyrics.style.opacity = 0;
+                setTimeout(() => {
+                    lyrics.style.opacity = 1; // fade-in
+                }, 50);
                 currentLine = i;
             }
         }
