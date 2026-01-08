@@ -37,7 +37,7 @@ button {
     font-family: 'Pacifico', cursive;
     font-size: 18px;
     padding: 10px 20px;
-    margin: 10px;
+    margin: 0 5px; /* Butonlar yan yana ve arada boşluk */
     border: none;
     border-radius: 15px;
     cursor: pointer;
@@ -51,15 +51,12 @@ button {
 #no {
     background-color: #ffb6d9;
     color: #ff2f92;
-    position: absolute;
-    left: 120px;
-    top: 200px;
+    position: relative; /* Artık absolute değil */
 }
 
 #result {
     display: none;
     color: #ff2f92;
-    animation: fadeIn 0.6s ease-in-out;
 }
 
 #photo {
@@ -69,26 +66,33 @@ button {
     margin-top: 15px;
 }
 
+/* Şarkı sözleri – sağdan biraz sola kaydırdık */
 #lyrics {
     position: fixed;
-    right: 40px;
+    right: 120px; /* Eski 40px yerine biraz sola kaydırdık */
     top: 50%;
     transform: translateY(-50%);
     width: 260px;
     color: #ff4f9a;
     font-size: 20px;
+    text-align: center; /* Ortala */
     opacity: 0;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to   { opacity: 1; transform: scale(1); }
+/* Animasyon efekti */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* Telefon görünümü */
 @media (max-width: 768px) {
     #lyrics {
-        position: fixed;
         left: 50%;
         bottom: 30px;
         right: auto;
@@ -105,8 +109,10 @@ button {
 
 <div class="container">
     <h1 id="question">Beni seviyor musun? 💕</h1>
-    <button id="yes">Evet 💖</button>
-    <button id="no">Hayır 🙃</button>
+    <div id="buttons"> <!-- Butonları kapsayan div -->
+        <button id="yes">Evet 💖</button>
+        <button id="no">Hayır 🙃</button>
+    </div>
 
     <div id="result">
         <h2>Bende seni çok seviyorum yavrum 💗</h2>
@@ -127,19 +133,16 @@ const photo = document.getElementById("photo");
 const lyrics = document.getElementById("lyrics");
 const music = document.getElementById("music");
 
-// Hayır butonunun kaçması
+// Hayır butonu hareketi (relative pozisyonda çalışacak)
 noBtn.addEventListener("mouseover", () => {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 50);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    const x = Math.random() * 150; // Sadece kutu içinde hareket edecek
+    noBtn.style.transform = `translateX(${x}px)`;
 });
 
 // Evet tıklandığında
 yesBtn.addEventListener("click", () => {
     document.getElementById("question").style.display = "none";
-    yesBtn.style.display = "none";
-    noBtn.style.display = "none";
+    document.getElementById("buttons").style.display = "none"; // Buton div'i gizle
 
     result.style.display = "block";
     photo.style.display = "block";
@@ -163,6 +166,7 @@ yesBtn.addEventListener("click", () => {
             if (music.currentTime >= timedLyrics[i].time && currentLine !== i) {
                 lyrics.innerText = timedLyrics[i].text;
                 lyrics.style.opacity = 1;
+                lyrics.style.animation = "fadeInUp 0.6s ease forwards";
                 currentLine = i;
             }
         }
