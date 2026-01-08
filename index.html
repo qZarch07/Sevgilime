@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Beni Seviyor musun 💖</title>
 
-<!-- El yazısı font -->
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 
 <style>
@@ -58,6 +57,7 @@ button {
 #result {
     display: none;
     color: #ff2f92;
+    animation: fadeIn 0.6s ease-in-out;
 }
 
 #photo {
@@ -66,14 +66,19 @@ button {
     border-radius: 15px;
     margin-top: 15px;
 }
-    
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
+}
 </style>
 </head>
+
 
 <body>
 
 <div class="container">
-    <h1>Beni seviyor musun? 💕</h1>
+    <h1 id="question">Beni seviyor musun? 💕</h1>
     <button id="yes">Evet 💖</button>
     <button id="no">Hayır 🙃</button>
 
@@ -97,6 +102,9 @@ noBtn.addEventListener("mouseover", () => {
 });
 
 yesBtn.addEventListener("click", () => {
+    document.getElementById("question").style.display = "none";
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
     result.style.display = "block";
     photo.style.display = "block";
 });
@@ -104,4 +112,5 @@ yesBtn.addEventListener("click", () => {
 
 </body>
 </html>
+
 
