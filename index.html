@@ -33,11 +33,17 @@ h1 {
     color: #ff4f9a;
 }
 
+/* Butonlar yan yana */
+#buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Butonlar arasındaki boşluk */
+}
+
 button {
     font-family: 'Pacifico', cursive;
     font-size: 18px;
     padding: 10px 20px;
-    margin: 0 5px; /* Yan yana */
     border: none;
     border-radius: 15px;
     cursor: pointer;
@@ -65,7 +71,7 @@ button {
     margin-top: 15px;
 }
 
-/* Şarkı sözleri – eski konum ve fade-in efekti */
+/* Şarkı sözleri – eski hâli */
 #lyrics {
     position: fixed;
     right: 40px; 
@@ -76,7 +82,7 @@ button {
     font-size: 20px;
     text-align: center;
     opacity: 0;
-    transition: opacity 0.6s ease-in-out; /* fade-in efekti */
+    transition: opacity 0.6s ease-in-out;
 }
 
 @media (max-width: 768px) {
@@ -96,7 +102,7 @@ button {
 
 <div class="container">
     <h1 id="question">Beni seviyor musun? 💕</h1>
-    <div id="buttons"> <!-- Butonları kapsayan div -->
+    <div id="buttons">
         <button id="yes">Evet 💖</button>
         <button id="no">Hayır 🙃</button>
     </div>
@@ -120,7 +126,7 @@ const photo = document.getElementById("photo");
 const lyrics = document.getElementById("lyrics");
 const music = document.getElementById("music");
 
-// Hayır butonu hareketi (ekranın her tarafına)
+// Hayır butonu hareketi: fare üzerine gelince ekranın her tarafına rastgele ışınlanacak
 noBtn.addEventListener("mouseover", () => {
     const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
     const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
@@ -157,7 +163,7 @@ yesBtn.addEventListener("click", () => {
                 lyrics.innerText = timedLyrics[i].text;
                 lyrics.style.opacity = 0;
                 setTimeout(() => {
-                    lyrics.style.opacity = 1; // fade-in
+                    lyrics.style.opacity = 1; // fade-in efekt
                 }, 50);
                 currentLine = i;
             }
