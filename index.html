@@ -71,7 +71,17 @@ button {
     margin-top: 15px;
 }
 
-/* Şarkı sözleri – yeni boyut ve konum */
+/* BayCat resmi */
+#topImage {
+    width: 120px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Şarkı sözleri */
 #lyrics {
     position: fixed;
     right: 120px; 
@@ -110,6 +120,7 @@ button {
 <body>
 
 <div class="container">
+    <img id="topImage" src="BayCat.jpg" alt="BayCat">
     <h1 id="question">Beni seviyor musun? 💕</h1>
     <div id="buttons">
         <button id="yes">Evet 💖</button>
@@ -137,11 +148,12 @@ const photo = document.getElementById("photo");
 const lyrics = document.getElementById("lyrics");
 const music = document.getElementById("music");
 const volumeControl = document.getElementById("volumeControl");
+const topImage = document.getElementById("topImage");
 
 // Başlangıçta ses %20
 music.volume = 0.2;
 
-// Hayır butonu hareketi: fare üzerine gelince ekranın her tarafına ışınlanacak
+// Hayır butonu hareketi
 noBtn.addEventListener("mouseover", () => {
     const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
     const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
@@ -154,6 +166,7 @@ noBtn.addEventListener("mouseover", () => {
 yesBtn.addEventListener("click", () => {
     document.getElementById("question").style.display = "none";
     document.getElementById("buttons").style.display = "none";
+    topImage.style.display = "none"; // BayCat resmi kayboluyor
 
     result.style.display = "block";
     photo.style.display = "block";
@@ -178,7 +191,7 @@ yesBtn.addEventListener("click", () => {
                 lyrics.innerText = timedLyrics[i].text;
                 lyrics.style.opacity = 0;
                 setTimeout(() => {
-                    lyrics.style.opacity = 1; // fade-in efekt
+                    lyrics.style.opacity = 1;
                 }, 50);
                 currentLine = i;
             }
@@ -194,4 +207,3 @@ volumeControl.addEventListener("input", () => {
 
 </body>
 </html>
-
