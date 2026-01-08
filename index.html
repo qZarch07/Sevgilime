@@ -71,6 +71,14 @@ button {
     margin-top: 15px;
 }
 
+#photoText {
+    margin-top: 10px;
+    font-size: 22px;
+    color: #ff4f9a;
+    text-align: center;
+    font-family: 'Pacifico', cursive;
+}
+
 /* BayCat resmi */
 #topImage {
     width: 120px;
@@ -128,16 +136,23 @@ button {
     </div>
 
     <div id="result">
-        <h2>Bende seni çok seviyorum yavrum 💗</h2>
+        <h2>Bende seni çok seviyorum yavrum 🤍</h2>
         <img id="photo" src="kedi.jpg">
+        <p id="photoText">İyi ki varsın güzelim 🤍</p>
         <div id="lyrics"></div>
         <!-- Ses kontrol slider -->
-        <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.2">
+        <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.1">
     </div>
 </div>
 
+<!-- Ana müzik -->
 <audio id="music">
     <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Kedi sesi -->
+<audio id="catSound">
+    <source src="cat.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -149,8 +164,9 @@ const lyrics = document.getElementById("lyrics");
 const music = document.getElementById("music");
 const volumeControl = document.getElementById("volumeControl");
 const topImage = document.getElementById("topImage");
+const catSound = document.getElementById("catSound");
 
-// Başlangıçta ses %10
+// Başlangıçta müzik sesi %10
 music.volume = 0.1;
 
 // Hayır butonu hareketi
@@ -203,8 +219,13 @@ yesBtn.addEventListener("click", () => {
 volumeControl.addEventListener("input", () => {
     music.volume = volumeControl.value;
 });
+
+// Ekrana her tıklamada kedi sesi çal
+document.addEventListener("click", () => {
+    catSound.currentTime = 0;
+    catSound.play();
+});
 </script>
 
 </body>
 </html>
-
